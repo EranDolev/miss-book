@@ -1,0 +1,30 @@
+.book-details {
+    display: grid;
+    position: relative;
+    
+    padding: 10px;
+    background-color: lightsteelblue;
+    margin-block-start: 10px;
+}
+.book-details img{
+    width: 120px;
+    justify-self: center;
+}
+.book-details button{
+    justify-self: end;
+}
+
+.red{
+    color: red;
+}
+
+.green{
+    color: green;
+}
+
+.on-sale{
+    position: absolute;
+    top: 1px;
+    right: 1px;
+}
+
