@@ -1,7 +1,7 @@
 import { bookService } from '../services/book.service.js'
 
-import BookFilter from './BookFilter.js'
-import BookList from './BookList.js'
+import BookFilter from '../cmps/BookFilter.js'
+import BookList from '../cmps/BookList.js'
 
 import BookDetails from './BookDetails.js'
 import BookEdit from './BookEdit.js'
@@ -9,23 +9,23 @@ import BookEdit from './BookEdit.js'
 export default {
     template:`
         <section class="book-index">
+            <RouterLink to="/book/edit">Add a book</RouterLink>
             <BookFilter @filter="setFilterBy"/>
             <!-- <pre>{{ books }}</pre> -->
             <BookList
                 :books="filteredBooks"
-                v-if="books"
-                @remove="removeBook" 
-                @show-details="showBookDetails" />
-            <BookEdit @book-saved="onSaveBook"/>
-            <BookDetails 
+                @remove="removeBook" />
+                <!-- @show-details="showBookDetails" /> -->
+            <!-- <BookEdit @book-saved="onSaveBook"/> -->
+            <!-- <BookDetails 
                 v-if="selectedBook" 
                 @hide-details="selectedBook = null"
-                :book="selectedBook"/>
+                :book="selectedBook"/> -->
         </section>
     `,
     data() {
         return {
-            books: null,
+            books: [],
             selectedBook: null,
             filterBy: {},
         }

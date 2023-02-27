@@ -3,6 +3,8 @@
 import { utilService } from './util.service.js'
 import { storageService } from './async-storage.service.js'
 
+// import books from '../books.json'
+
 const BOOK_KEY = 'bookDB'
 
 _createBooks()
@@ -54,6 +56,11 @@ function getEmptyBook(title = '', amount = 0) {
             amount: amount,
             currencyCode: ''
         },
+        review: {
+            fullName: '',
+            rating: 0,
+            readAt: '',
+        },
         description: 'description missing',
     }
 }
@@ -82,6 +89,11 @@ function _createBooks() {
                 "amount": 109,
                 "currencyCode": "EUR",
                 "isOnSale": false
+              },
+              "review": {
+                "fullName": '',
+                "rating": 0,
+                "readAt": ''
               }
             },
             {

@@ -1,4 +1,5 @@
 import BookPreview from './BookPreview.js'
+import { eventBusService } from "../services/event-bus.service.js"
 
 export default {
     props:['books'],
@@ -7,7 +8,9 @@ export default {
             <ul>
                 <li v-for="book in books" :key="book.id">
                     <BookPreview :book="book"/>
-                    <button @click="showDetails(book.id)">Details</button>
+                    <RouterLink :to="'/book/'+book.id">Details</RouterLink> |
+                    <RouterLink :to="'/book/edit/'+book.id">Edit</RouterLink> |
+                    <button hidden @click="showDetails(book.id)">Details</button>
                     <button @click="remove(book.id)">x</button>                    
                 </li>
             </ul>
@@ -16,7 +19,12 @@ export default {
         methods: {
             remove(bookId) {
                 this.$emit('remove', bookId)
-            },
+                // .then(savedBook => {
+                    eventBusService.emit('show-msg', { txt: 'Book deleted', type: 'success' })
+                    // this.$router.push('/book')
+                    // this.book = bookService.getEmptyBook()
+                    // this.$emit('book-saved', savedBook)
+                },
             showDetails(bookId){
                 this.$emit('show-details', bookId)
             },
