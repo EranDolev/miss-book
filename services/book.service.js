@@ -15,6 +15,8 @@ export const bookService = {
     remove,
     save,
     getEmptyBook,
+    addReview,
+    deleteReview,
 }
 
 function query(filterBy = {}) {
@@ -65,6 +67,23 @@ function getEmptyBook(title = '', amount = 0) {
     }
 }
 
+function addReview(bookId, review){
+  return get(bookId).then((book) => {
+    review.id = utilService.makeId()
+    if (!book.reviews) {book.reviews = []}
+    book.reviews.push(review)
+    return save(book)
+  })
+}
+
+function deleteReview(bookId, reviewId){
+  return get(bookId).then((book) => {
+    const idx = book.reviews.findIndex((review) => review.id === reviewId)
+    book.reviews.splice(idx, 1)
+    return save(book)
+  })
+}
+
 function _createBooks() {
     let books = utilService.loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
@@ -90,11 +109,6 @@ function _createBooks() {
                 "currencyCode": "EUR",
                 "isOnSale": false
               },
-              "review": {
-                "fullName": '',
-                "rating": 0,
-                "readAt": ''
-              }
             },
             {
               "id": "JYOJa2NpSCq",

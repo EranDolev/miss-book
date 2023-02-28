@@ -1,10 +1,11 @@
 import { bookService } from "../services/book.service.js"
 import AddReview from "../cmps/AddReview.js"
 import LongText from '../cmps/LongText.js'
+import ReviewPreview from '../cmps/ReviewPreview.js'
 
 export default {
     template: `
-        <section class="book-details">
+        <section class="book-details" v-if="book">
             <h2>Book Name: {{ book.title }}</h2>
             <h3>Author: {{ authors }}</h3>
             <h3 :class="isExpensive">{{ book.listPrice.amount }}  {{ book.listPrice.currencyCode }}</h3>
@@ -18,7 +19,8 @@ export default {
             <h3 v-else>New</h3>
             <img class="on-sale" v-if="book.listPrice.isOnSale" :src="'../assets/images/on-sale.png'" alt="">
             <!-- <button @click="closeDetails">Close</button> -->
-            <AddReview :book="book"/>
+            <AddReview />
+            <ReviewPreview />
             <RouterLink to="/book">Back to list</RouterLink>
         </section>
     `,
@@ -29,10 +31,13 @@ export default {
         }
     },
     created() {
-        console.log('Params:',  this.$route.params)
-        const {bookId} = this.$route.params
+        console.log('Params:', this.$route.params)
+        const { bookId } = this.$route.params
+        console.log(bookId)
         bookService.get(bookId)
-            .then(book => this.book = book)
+            .then(book => this.book = book
+
+            )
     },
     computed: {
         isExpensive() {
@@ -40,7 +45,7 @@ export default {
             else if (this.book.listPrice.amount < 20) return 'green'
         },
         authors() {
-            return this.book.authors.join (', ')
+            return this.book.authors.join(', ')
         }
     },
     methods: {
@@ -51,5 +56,6 @@ export default {
     components: {
         LongText,
         AddReview,
+        ReviewPreview
     }
 }

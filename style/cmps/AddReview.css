@@ -1,0 +1,22 @@
+#modal {
+    display: flex;
+    flex-direction: column;
+    
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* z-index: 2; */
+    border: 1px solid #666;
+    border-radius: 10px;
+    transition: all .3s;
+    overflow: hidden;
+    background-color: beige;
+  }
+
+  .close-modal{
+    position: absolute;
+    right: 1em;
+    top: 1em;
+  }
