@@ -21,6 +21,12 @@ export default {
             <!-- <button @click="closeDetails">Close</button> -->
             <AddReview />
             <ReviewPreview />
+            <nav>
+                <RouterLink :to="'/book/' + book.prevBookId">Previous Book</RouterLink> |
+                <RouterLink :to="'/book/' + book.nextBookId">Next Book</RouterLink>
+            </nav>
+            <hr/>
+
             <RouterLink to="/book">Back to list</RouterLink>
         </section>
     `,
@@ -32,12 +38,7 @@ export default {
     },
     created() {
         console.log('Params:', this.$route.params)
-        const { bookId } = this.$route.params
-        console.log(bookId)
-        bookService.get(bookId)
-            .then(book => this.book = book
-
-            )
+        this.loadBook()
     },
     computed: {
         isExpensive() {
@@ -46,12 +47,23 @@ export default {
         },
         authors() {
             return this.book.authors.join(', ')
+        },
+        bookId() {
+            console.log(this.$route.params.bookId)
+            return this.$route.params.bookId
+        }
+    },
+    watch:{
+        bookId(){
+            this.loadBook()
         }
     },
     methods: {
-        // closeDetails(){
-        //     this.$emit('hide-details')
-        // }
+        loadBook() {
+            console.log(this.bookId)
+            bookService.get(this.bookId)
+                .then(book => this.book = book)
+        }
     },
     components: {
         LongText,
