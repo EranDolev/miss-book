@@ -20,6 +20,7 @@
 @import 'cmps/UserMsg.css';
 @import 'cmps/AddReview.css';
 @import 'cmps/ReviewPreview.css';
+@import 'cmps/BookAdd.css';
 
 @import 'cmps/BookDetails.css';
 @import 'cmps/BookEdit.css';
