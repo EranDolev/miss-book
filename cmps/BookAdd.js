@@ -1,13 +1,22 @@
+import { bookService } from "../services/book.service.js"
+import { eventBusService } from "../services/event-bus.service.js"
+
 export default {
     template: `
-        <input type="text">
-        <section>
+        <form>
+            <input v-model="filterBy.title"
+                @input="filter" 
+                placeholder="Search" type="text">
+            <button>Submit</button>
+        </form>
+
+    <section>
             <hr/>
             <ul>
-                <li class="books-add" v-for="book in demoBooks" :key="book.id">
+                <li :demoBooks="filteredBooks" class="books-add" v-for="book in demoBooks" :key="book">
                     <h3>{{ book.id }}</h3>
                     <p>{{ book.title }}</p>
-                    <button>+</button>                
+                    <button @click="addBook(book)">+</button>                
                 </li>
             </ul>
             <hr/>
@@ -15,7 +24,8 @@ export default {
     `,
     data() {
         return {
-            book: null,
+            book: bookService.getEmptyBook(),
+            filterBy: { title: ''},
             demoBooks: [
             {
                 "id": "abc",
@@ -39,5 +49,29 @@ export default {
             }
             ]
         }
-    }
+    },
+    methods: {
+        addBook(book) {
+                this.book.id = book.id
+                this.book.title = book.title
+                bookService.addGoogleBook(this.book)
+                    .then((book) => {
+                    eventBusService.emit('show-msg', { txt: 'Book added', type: 'success' })
+                    // this.book = book
+                        })
+                
+        },
+        filter () {
+            console.log(this.filterBy.title)
+            this.$emit('filter', this.filterBy)
+        }
+    },
+    computed: {
+        filteredBooks() {
+            console.log('hello')
+            console.log(this.demoBooks)
+            const regex = new RegExp(this.filterBy.title, 'i')
+            return this.demoBooks.filter(book => regex.test(book.title))
+        }
+    },
 }
